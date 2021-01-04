@@ -1,6 +1,8 @@
 import React, { Fragment } from "react";
 import { Navbar, Nav } from "react-bootstrap";
 
+import auth from "../services/auth_Service";
+
 const NavBar = ({ user }) => {
   return (
     <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
@@ -16,7 +18,7 @@ const NavBar = ({ user }) => {
           )}
           {user && (
             <Fragment>
-              <Nav.Link href="/profile">Signed in as {user.name}</Nav.Link>
+              <Nav.Link href="/profile">Signed in as {user}</Nav.Link>
               <Nav.Link href="/logout">Logout</Nav.Link>
             </Fragment>
           )}

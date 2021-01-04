@@ -7,8 +7,11 @@ import {
 } from "react-router-dom";
 
 import LoginForm from "./components/loginForm";
+import Logout from "./components/logout";
 import NavBar from "./components/navBar";
 import NotFound from "./components/notFound";
+import Reimbursements from "./components/reimbursements";
+import Tickets from "./components/tickets";
 import auth from "./services/auth_Service";
 import "./App.css";
 
@@ -24,12 +27,15 @@ class App extends Component {
     const { user } = this.state;
     return (
       <React.Fragment>
-        <NavBar user={this.state.user} />
+        <NavBar user={user} />
         <main className="container">
           <Router>
             <Switch>
               <Route path="/login" component={LoginForm} />
+              <Route path="/logout" component={Logout} />
               <Route path="/not-found" component={NotFound} />
+              <Route path="/reimbursements" component={Reimbursements} />
+              <Route path="/tickets" component={Tickets} />
               <Redirect exact from="/" to="/login" />
               <Redirect to="/not-found" />
             </Switch>

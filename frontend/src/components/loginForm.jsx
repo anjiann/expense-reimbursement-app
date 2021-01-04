@@ -31,7 +31,13 @@ class LoginForm extends Form {
   };
 
   render() {
-    if (auth.getCurrentUser()) return <Redirect to="/" />;
+    if (auth.getCurrentUser()) {
+      return auth.getUserRoleId() == 1 ? (
+        <Redirect to="/tickets" />
+      ) : (
+        <Redirect to="/reimbursements" />
+      );
+    }
     return (
       <div>
         <h1>Login form</h1>

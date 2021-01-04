@@ -4,6 +4,13 @@ import { toast } from "react-toastify";
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
+export const axiosClient = axios.create({
+  baseURL: axios.defaults.baseURL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
 axios.interceptors.response.use(null, (error) => {
   const expectedError =
     error.response &&
@@ -23,9 +30,9 @@ function setJwt(jwt) {
 }
 
 export default {
-  get: axios.get,
-  post: axios.post,
-  put: axios.put,
-  delete: axios.delete,
+  get: axiosClient.get,
+  post: axiosClient.post,
+  put: axiosClient.put,
+  delete: axiosClient.delete,
   setJwt,
 };
