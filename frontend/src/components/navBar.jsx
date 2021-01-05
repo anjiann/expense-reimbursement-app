@@ -1,8 +1,6 @@
 import React, { Fragment } from "react";
 import { Navbar, Nav } from "react-bootstrap";
 
-import auth from "../services/auth_Service";
-
 const NavBar = ({ user }) => {
   return (
     <Navbar collapseOnSelect expand="lg" bg="light" variant="light">

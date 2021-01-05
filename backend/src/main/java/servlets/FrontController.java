@@ -9,35 +9,31 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import controllers.AuthController;
-import controllers.ErrorController;
-import controllers.UserController;
+import controllers.*;
 
 /**
  * Servlet implementation class FrontController
  */
 public class FrontController extends HttpServlet {
-	
 	private AuthController authController = new AuthController();
-	
 	private ErrorController errorController = new ErrorController();
-	
 	private UserController userController = new UserController();
+	private ReimbursementController reimbursementController = new ReimbursementController();
 
 	protected void directControlRouter(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		//how to get a value from your init params
-		System.out.println(this.getInitParameter("DefaultRole"));
-		ServletContext sc = this.getServletContext();
-		
-		System.out.println(sc.getInitParameter("JavaCoolFactor"));
+//		System.out.println(this.getInitParameter("DefaultRole"));
+//		ServletContext sc = this.getServletContext();
+//		
+//		System.out.println(sc.getInitParameter("JavaCoolFactor"));
 		
 		//be our front controller
 		String URI = req.getRequestURI().substring(req.getContextPath().length(), 
 													req.getRequestURI().length());
-		
-		System.out.println(URI);
-		switch (URI) {
-			case "/login":{
+		String[] splitURI = URI.split("/");
+		System.out.println(req.getMethod() + " URI: " + URI);
+		switch (splitURI[1]) {
+			case "login":{
 				switch (req.getMethod()) {
 					case "GET":{
 						res.setStatus(400);
@@ -67,25 +63,18 @@ public class FrontController extends HttpServlet {
 				}
 				break;
 			}
-			case "/users": {
+			case "users": {
 				switch (req.getMethod()) {
 					case "GET":{
-						userController.findAllUsers(req, res);
-						break;
-					}
-					case "POST":{
-						res.setStatus(400);
-						res.getWriter().write("Method Not Supported");
-						break;
-					}
-					case "PUT":{
-						res.setStatus(400);
-						res.getWriter().write("Method Not Supported");
-						break;
-					}
-					case "DELETE":{
-						res.setStatus(400);
-						res.getWriter().write("Method Not Supported");
+						if(splitURI.length == 2) {
+							userController.findAllUsers(req, res);
+						} else if(splitURI.length == 3) {
+							int id = Integer.parseInt(splitURI[2]);
+							userController.findUserById(req, res, id);
+						} else {
+							res.setStatus(400);
+							res.getWriter().write("Method Not Supported");
+						}
 						break;
 					}
 					default:{
@@ -94,10 +83,42 @@ public class FrontController extends HttpServlet {
 						break;
 					}
 				}
+
 				break;
 			}
-			case "/users/" : {
-				
+			case "reimbursements" : {
+				switch (req.getMethod()) {
+					case "GET": {
+						reimbursementController.findAllReimbursements(req, res);
+						break;
+					}
+					case "POST": {
+						reimbursementController.saveReimbursement(req, res);
+						break;
+					}
+					case "PUT": {
+						reimbursementController.updateReimbursement(req, res, Integer.parseInt(splitURI[2]));
+						break;
+					}
+					default: { 
+						res.setStatus(400);
+						res.getWriter().write("Method Not Supported");
+					}
+				}
+				break;
+			}
+			case "statuses" : {
+				switch (req.getMethod()) {
+					case "GET": {
+						reimbursementController.findAllStatuses(req, res);
+						break;
+					}
+					default: { 
+						res.setStatus(400);
+						res.getWriter().write("Method Not Supported");
+					}
+				}
+				break;
 			}
 			default:{
 				res.setStatus(404);

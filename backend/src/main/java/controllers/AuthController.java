@@ -25,8 +25,6 @@ public class AuthController {
 		User u = us.login(cred.getUsername(), cred.getPassword());
 		
 		HttpSession sess = req.getSession();
-		sess.setAttribute("User-Role", "Admin");
-		
 		if (u != null) {
 			sess.setAttribute("User-Role", u.getRoleId());
 			res.setStatus(200);

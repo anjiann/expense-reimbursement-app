@@ -68,5 +68,34 @@ public class UserDAO extends DAO {
 		}
 		
 		return users;
+	}
+
+	public User getUserById(int userId) {
+		try {
+			Connection conn = cf.getConnection();
+
+			String queryString = "select * from users where \"user_id\" = ? ;";
+			PreparedStatement query = conn.prepareStatement(queryString);
+			query.setInt(1, userId);
+			
+			ResultSet rs = query.executeQuery();
+
+			if(rs.next()) {
+				int id = rs.getInt("user_id");
+                int roleId = rs.getInt("role_id");
+				String username = rs.getString("username");
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
+				String email = rs.getString("email");
+
+				User user = new User(id, roleId, username, firstName, lastName, email);
+				return user;
+			} 
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}	
 }

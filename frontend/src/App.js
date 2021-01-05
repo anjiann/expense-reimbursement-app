@@ -10,6 +10,7 @@ import LoginForm from "./components/loginForm";
 import Logout from "./components/logout";
 import NavBar from "./components/navBar";
 import NotFound from "./components/notFound";
+import ReimbursementForm from "./components/reimbursementForm";
 import Reimbursements from "./components/reimbursements";
 import Tickets from "./components/tickets";
 import auth from "./services/auth_Service";
@@ -34,6 +35,7 @@ class App extends Component {
               <Route path="/login" component={LoginForm} />
               <Route path="/logout" component={Logout} />
               <Route path="/not-found" component={NotFound} />
+              <Route path="/reimbursements/:id" component={ReimbursementForm} />
               <Route path="/reimbursements" component={Reimbursements} />
               <Route path="/tickets" component={Tickets} />
               <Redirect exact from="/" to="/login" />

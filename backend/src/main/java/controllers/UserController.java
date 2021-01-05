@@ -27,13 +27,21 @@ public class UserController {
 		
 		if(sess.getAttribute("User-Role") == null) {
 			throw new UnauthenticatedException();
-		} else if(!sess.getAttribute("User-Role").equals("Admin")) {
+		} else if(!sess.getAttribute("User-Role").equals(2)) {
 			throw new UnauthorizedException();
 		}
-		List<User> allusers = us.findAllUsers();
+		List<User> allusers = us.findUsers();
 		res.setStatus(200);
 		res.getWriter().write(om.writeValueAsString(allusers));
 		
+	}
+
+
+	public void findUserById(HttpServletRequest req, HttpServletResponse res, int userId)
+		throws IOException {
+		User user = us.findUserById(userId);
+		res.setStatus(200);
+		res.getWriter().write(om.writeValueAsString(user));
 	}
 	
 }

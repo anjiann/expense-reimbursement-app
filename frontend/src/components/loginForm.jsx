@@ -32,6 +32,7 @@ class LoginForm extends Form {
 
   render() {
     if (auth.getCurrentUser()) {
+      console.log(auth.getUserRoleId() === 1);
       return auth.getUserRoleId() == 1 ? (
         <Redirect to="/tickets" />
       ) : (

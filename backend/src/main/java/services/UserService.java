@@ -20,10 +20,14 @@ public class UserService {
 		return user;
 	}
 	
-	public List<User> findAllUsers() {
+	public List<User> findUsers() {
         if (currentUser.getRoleId() != 2) {
             return userDAO.GetAllUsers();
         }
         return null;
+	}
+
+	public User findUserById(int userId) {
+		return userDAO.getUserById(userId);
 	}
 }
